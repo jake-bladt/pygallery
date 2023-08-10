@@ -12,11 +12,14 @@ def copy_subject_directory(subject):
     local_source_path = utils.get_subject_directory_path(subject)
     all_jpgs = fileops.get_files_with_extension(local_source_path, 'jpg')
     for j in all_jpgs:
-        library.write_if_needed(j)
+        message = library.write_if_needed(j)
+        print(message)
 
     batch_results = library.end_batch()
-    for r in batch_results:
-        print(r)
+    writes = batch_results["write-count"]
+    skips = batch_results["skip-count"]
+    errors = batch_results["error-count"]
+    print(f'{subject}: wrote {writes}, skipped {skips}, failed {errors}')
 
 if __name__ == "__main__":
     subject = sys.argv[1]

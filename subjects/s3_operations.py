@@ -35,7 +35,16 @@ def get_subject_hashes(subject):
         manifest_string = body.read().decode()
         manifest_entries = manifest_string.splitlines()
         for entry in manifest_entries:
-            parts = entry.split[':']
+            parts = entry.split(':')
             ret[parts[0]] = parts[1]
 
     return ret
+
+def write_subject_manifest(subject, hashes):
+    manifest_path = utils.get_s3_subject_manifest_path(subject)
+    if(object_exists(s3_bucket_name, manifest_path)):
+        s3_client.delete_object(Bucket=s3_bucket_name, Key=manifest_path)
+
+    manifest_entries = map(lambda k: f'{k}:{hashes[k]}', hashes.keys())
+    manifest_text = "\n".join(manifest_entries)
+    s3_client.put_object(Bucket=s3_bucket_name, Key=manifest_path, Body=manifest_text)

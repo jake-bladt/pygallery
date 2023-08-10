@@ -1,9 +1,10 @@
 import boto3
 from botocore.exceptions import ClientError
+import os
 
 import subject_utils as utils
 
-s3_bucket_name = 'jakecodes-gallery-dev1'
+s3_bucket_name = os.getenv('GALLERY_S3_BUCKET')
 s3_client = boto3.client('s3')
 s3_resource = boto3.resource('s3')
 

@@ -1,4 +1,6 @@
-subject_root = "H:\\shared_root\\jake\\bulk\\regal\\bins\\cast\\subjects\\"
+import os
+
+subject_root = os.getenv('GALLERY_SUBJECT_ROOT')
 
 def get_subject_directory_path(subject):
     return subject_root + subject + "\\"
